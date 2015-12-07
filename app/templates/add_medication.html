@@ -1,0 +1,57 @@
+<div layout-fill>
+<h3>Add a medication</h3>
+<div class="row">
+<form class="col s12" name="userForm" ng-submit="submitForm()">
+   <div class="row">
+      <div class="input-field col s12">
+        <input id="name" name = "name" ng-model = "newMedication.name" type="text" class="validate">
+        <label for="name">Name</label>
+      </div>
+    </div>
+          
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="slug" name = "slug" ng-model = "newMedication.slug" type="text" class="validate">
+        <label for="slug">Slug</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <textarea id="textarea1" name = "description" ng-model = "newMedication.description" class="materialize-textarea"></textarea>
+        <label for="textarea1">Description</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <textarea id="textarea1" name = "image" ng-model = "newMedication.image" class="materialize-textarea"></textarea>
+        <label for="textarea1">Image</label>
+      </div>
+    </div>
+
+<!-- <div class="row">
+      <div class="input-field col s12">
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>File</span>
+        <input type="file">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+</div>
+    </div> -->
+
+       <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+        <i class="material-icons right">send</i>
+      </button>
+   </form>
+</div>
+
+</div>
+
+<style type="text/css">
+  h3{text-align: center;}
+</style>

@@ -1,0 +1,58 @@
+ <div layout-fill>
+<h3>Add a patient</h3>
+<div class="row">
+<form class="col s12" name="userForm" ng-submit="submitForm()">
+   <div class="row">
+      <div class="input-field col s12">
+        <input id="firstname" name = "firstname" ng-model = "newUser.firstname" type="text" class="validate">
+        <label for="firstname">First Name</label>
+      </div>
+    </div>
+          
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="lastname" name = "lastname" ng-model = "newUser.lastname" type="text" class="validate">
+        <label for="lastname">Last Name</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="username" name = "username" ng-model = "newUser.username" type="text" class="validate">
+        <label for="username">Username</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <input type="password" name = "password" ng-model = "newUser.password" type="password" class="validate">
+        <label for="password">Password</label>
+      </div>
+    </div>
+
+     <div class="row">
+      <div class="input-field col s12">
+        <input id="role" name = "role" ng-model = "newUser.role" type="text" class="validate">
+        <label for="role">Role</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <textarea id="description" name = "image" ng-model = "newUser.description" class="materialize-textarea"></textarea>
+        <label for="description">Description</label>
+      </div>
+    </div>
+
+
+       <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+        <i class="material-icons right">send</i>
+      </button>
+   </form>
+</div>
+
+</div>
+
+<style type="text/css">
+  h3{text-align: center;}
+</style>

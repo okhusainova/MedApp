@@ -1,0 +1,26 @@
+<h3>Registration</h3>
+ <div class="row">
+<form class="col s12" name="userForm" >
+   <div class="row">
+      <div class="input-field col s12">
+        <input type="text" ng-model="user.name">
+         <label for="username">Username</label>
+    </div>
+    </div>
+        <div class="row">
+      <div class="input-field col s12">
+        <input type="password"  ng-model="user.password">
+        <label for="password">Password</label>
+      </div>
+    </div>
+    <button class="btn waves-effect waves-light" ng-click="signup()" ng-click="doGreeting(greeting)">
+      Sign up
+    </button>
+  
+</form>
+
+  </div>
+
+<style type="text/css">
+  h3{text-align: center;}
+</style>

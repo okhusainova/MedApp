@@ -1,0 +1,75 @@
+<link type="text/css" rel="stylesheet" href="MedApp/node_modules/materialize-css/dist/css/materialize.css"  media="screen,projection"/>
+<script type="text/javascript" src="MedApp/node_modules/materialize-css/js/date_picker/picker.js"></script>
+<script type="text/javascript" src="MedApp/node_modules/materialize-css/js/date_picker/picker.date.js"></script>
+<script type="text/javascript" src="MedApp/node_modules/materialize-css/dist/css/materialize.js"></script>
+
+
+<h3>Add a prescription</h3>
+
+<div class="row">
+<form class="col s12">
+   
+      <div class="row">
+      <div class="input-field col s12"> <!-- селект для юзера -->
+    <select>
+      <option value="" disabled selected>Choose your option</option>
+      <option value="1">Option 1</option>
+      <option value="2">Option 2</option>
+      <option value="3">Option 3</option>
+    </select>
+    <label>Materialize Select</label>
+  </div>
+</div>
+
+
+  <div class="row">
+      <div class="input-field col s12"> <!-- селект для препарата -->
+    <select>
+      <option value="" disabled selected>Choose your option</option>
+      <option value="1">Option 1</option>
+      <option value="2">Option 2</option>
+      <option value="3">Option 3</option>
+    </select>
+    <label>Materialize Select</label>
+  </div>
+</div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="route" type="text" class="validate">
+        <label for="route">Route</label>
+      </div>
+    </div>
+    
+
+
+<div class="row">
+<div class="input-field col s12">
+<input type="date" class="datepicker">
+</div>
+</div>
+
+<div class="row">
+<div class="input-field col s12">
+<input type="date" class="datepicker">
+</div>
+</div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <textarea id="comments" class="materialize-textarea"></textarea>
+        <label for="comments">Comments</label>
+      </div>
+    </div>
+       <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+        <i class="material-icons right">send</i>
+      </button>
+   </form>
+</div>
+
+<style type="text/css">
+  h3{text-align: center;}
+</style>
+
+ <script type="text/javascript">  $('.datepicker').pickadate({
+  });</script>

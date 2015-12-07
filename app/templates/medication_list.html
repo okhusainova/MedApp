@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Medication's list</div>
+  <!-- Table -->
+  <table class="table" >
+    <tr>
+      <th>Slug</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Image</th>
+      <th>Action</th>
+    </tr>
+      <tr ng-repeat="medication in medications">
+        <td>{{medication.slug}}</td>
+        <td>{{medication.name}}</td>
+        <td>{{medication.description}}</td>
+        <td>{{medication.image}}</td>
+        <td><button data-ng-click = "DeleteMed(medication._id)" class="btn waves-effect waves-light" type="submit" name="action">Delete
+    <i class="material-icons right">delete</i>
+  </button></td>
+      </tr>
+  </table>
+</div>
+<!-- /Welcome -->
+
+<style type="text/css">
+  .panel-default 
+  {
+    margin: 15px 15px 15px 15px;
+    text-align: center;
+  }
+</style>

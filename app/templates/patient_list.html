@@ -1,0 +1,94 @@
+<!--
+<div class="panel panel-default">
+  <div class="panel-heading">Patient's list</div>
+  
+  <table class="table">
+    <tr>
+      <th>Username</th>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Action</th>
+      <th>Action</th>
+    </tr>
+      <tr editable-textarea="user.username" ng-repeat="user in users">
+        <td>{{user.username}}</td>
+        <td>{{user.firstname}}</td>
+        <td>{{user.lastname}}</td>
+        <td><button data-ng-click = "DeleteUser(user._id)" class="btn waves-effect waves-light" type="submit" name="action">Delete
+        <i class="material-icons right">delete</i>
+        <td><button data-ng-click = "editPerson(user._id)" class="btn waves-effect waves-light" type="submit" name="action">Edit
+        <i class="material-icons right">edit</i>
+    </div>
+    </td>
+      </tr>
+  </table>
+<div ng-controller="TextBtnCtrl">
+<span editable-text="user.username" e-form="textBtnForm">
+    {{ user.name || 'empty' }}
+  </span>
+  <button class="btn btn-default" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
+    edit
+  </button>
+</div>
+-->
+
+<style type="text/css">
+  .tdiv1
+  {
+    margin: 15px 15px 15px 15px;
+    text-align: center;
+  }
+</style>
+
+
+<div class="tdiv1">
+  <table class="table table-bordered table-hover table-condensed">
+    <tr style="font-weight: bold">
+      <td style="width:35%">Username</td>
+      <td style="width:20%">Name</td>
+      <td style="width:20%">Surname</td>
+      <td style="width:25%">Action</td>
+    </tr>
+    <tr ng-repeat="user in users">
+      <td>
+        <!-- editable username (text with validation) -->
+        <span editable-text="user.username" e-name="username" e-form="rowform" onbeforesave="checkName($data, user._id)" e-required>
+          {{ user.username || 'empty' }}
+        </span>
+      </td>
+      <td>
+        <!-- editable status (select-local) -->
+        <span editable-text="user.firstname" e-name="status" e-form="rowform" e-ng-options="s.value as s.text for s in statuses">
+          {{ user.firstname || 'empty' }}
+        </span>
+      </td>
+      <td>
+        <!-- editable group (select-remote) -->
+        <span editable-text="user.lastname" e-name="status" e-form="rowform" e-ng-options="s.value as s.text for s in statuses">
+          {{ user.lastname || 'empty' }}
+        </span>
+      </td>
+
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+          <button class="btn btn-danger" ng-click="removeUser($index)">del</button>
+        </div>  
+      </td>
+    </tr>
+  </table>
+
+  <button class="btn btn-default" ng-click="addUser()">Add row</button>
+  </div>
+
+
+  
