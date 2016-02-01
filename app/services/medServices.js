@@ -2,14 +2,67 @@
 
 var medServices = angular.module('medServices', []);
 
+
+
 medServices.factory('MEDService', ['$http', '$rootScope', '$location', function($http, $rootScope, $location) {
   return {
+    errorHandler : function(type) {
+
+      var service = this;
+
+      switch (type) {
+        case 404 :
+        case 405 :
+        case 0 :
+        case 500 :
+        case 502 :
+
+          navigator.notification.alert(
+              'Please check your network connection and tap refresh',
+              function(){window.location.reload();},
+              'Network Connection Error',
+              'Refresh'
+          );
+
+          break;
+        case 401 :
+          this.logout(true);
+          break;
+      }
+    },
+
+    logout : function(doRedirect) {
+      window.localStorage.removeItem("accessToken");
+      $rootScope.accessToken = undefined;
+     // if (doRedirect) {
+        $location.path('/login');
+      //}
+    },
+
+ dialog: function(open, view) {
+      $(".overlay div").css("display", "none");
+      if (open) {
+        $(".overlay").fadeIn(300);
+        $("."+view).css("display", "block");
+      } else {
+        $(".overlay").fadeOut(300);
+        window.scroll(0,0);
+      }
+    },
+
+    testUser : function(user) {
+      return this.request("POST", "auth", {"username" : user.username, "password" : user.password});
+    },
     
     request: function(method, endpoint, content, params) {
 
         var url = $rootScope.server + endpoint;
 
         var hdrs = {};
+
+        if (!_.isUndefined($rootScope.user.username) && $rootScope.user.username != "") {
+         hdrs = {'Authorization' : 'Basic ' + btoa($rootScope.user.username + ":" + $rootScope.user.password)};
+        }
 
         return $http({method: method, url: url, data: content, headers: hdrs, timeout : 20000 });
         
@@ -34,6 +87,17 @@ medServices.factory('MEDService', ['$http', '$rootScope', '$location', function(
       return this.request(method, endpoint, data);
     },
 
+    prescriptions : function(method, data, params, value) {
+
+      var endpoint = "";
+
+      switch (params.action) {
+        case "newPrescriptions" :
+          endpoint = "prescriptions";
+      }
+      return this.request(method, endpoint, data);
+    },
+
     users: function(method, data, params, value) {
 
       var endpoint = "";
@@ -49,51 +113,10 @@ medServices.factory('MEDService', ['$http', '$rootScope', '$location', function(
           endpoint = "users/" + value;
           break;
         case "putUsers" :
-          endpoint = "users" + value;
+          endpoint = "users/" + value;
           break;
         }
         return this.request(method, endpoint, data);
     }
   };
 }]);
-
-medServices.factory('AuthService', function ($http, Session) {
-  var authService = {};
- 
-  authService.login = function (credentials) {
-    return $http
-      .post('/login', credentials)
-      .then(function (res) {
-        Session.create(res.data.id, res.data.user.id,
-                       res.data.user.role);
-        return res.data.user;
-      });
-  };
- 
-  authService.isAuthenticated = function () {
-    return !!Session.userId;
-  };
- 
-  authService.isAuthorized = function (authorizedRoles) {
-    if (!angular.isArray(authorizedRoles)) {
-      authorizedRoles = [authorizedRoles];
-    }
-    return (authService.isAuthenticated() &&
-      authorizedRoles.indexOf(Session.userRole) !== -1);
-  };
- 
-  return authService;
-})
-
-.service('Session', function () {
-  this.create = function (sessionId, userId, userRole) {
-    this.id = sessionId;
-    this.userId = userId;
-    this.userRole = userRole;
-  };
-  this.destroy = function () {
-    this.id = null;
-    this.userId = null;
-    this.userRole = null;
-  };
-})

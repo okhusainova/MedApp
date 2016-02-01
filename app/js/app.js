@@ -13,8 +13,6 @@ myApp.config(['$routeProvider', '$httpProvider', '$locationProvider',
   function($routeProvider, $httpProvider, $locationProvider) {
   $routeProvider.otherwise({redirectTo: '/home'});
 
-
-
 $routeProvider.
       when('/medication_list', {
         templateUrl: 'templates/medication_list.html',
@@ -41,19 +39,8 @@ $routeProvider.
         controller: 'add_tracking_Ctrl'
       }).
       when('/login', {
-         abstract: true,
          templateUrl: 'templates/login.html',
-         controller: 'LoginCtrl'
-      }).
-       when('/register', {
-         abstract: true,
-         templateUrl: 'templates/register.html',
-         controller: 'RegisterCtrl'
-      }).
-      when('/inside', {
-         abstract: true,
-         templateUrl: 'templates/inside.html',
-         controller: 'InsideCtrl'
+         controller: 'loginCtrl'
       }).
       otherwise({
         redirectTo: '/',
@@ -87,9 +74,6 @@ $routeProvider.
     $scope.menu.currentPage = page;
   };
 
-
-
-
 })
 
 .controller('LeftCtrl', function($scope, $timeout, $mdSidenav) {
@@ -105,7 +89,12 @@ myApp.run(['$http', '$rootScope', 'MEDService', '$location', 'editableOptions', 
 
   $rootScope.appName = "MedApp";
 
-  $location.path('/welcome');
+  if (_.isNull(window.localStorage.getItem("accessToken"))) {
+    $location.path('/login');
+  } else {
+    $rootScope.accessToken = window.localStorage.getItem("accessToken");
+    $location.path('/');
+  }
    editableOptions.theme = 'bs3';
 
 }]);

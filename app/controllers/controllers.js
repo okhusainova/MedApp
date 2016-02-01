@@ -2,8 +2,58 @@
 
 var medControllers = angular.module('medControllers', []);
 
-medControllers.controller('medication_list_Ctrl', ['$scope', 'MEDService', '$location', '$rootScope', function($scope, MEDService, $location, $rootScope) {
+medControllers.controller('add_prescription_Ctrl', ['$scope', 'MEDService', '$location', '$rootScope', function($scope, MEDService, $location, $rootScope) {
+ 
+ MEDService.users("GET", "", {"action" : "getUsers"})
+  .success(function(data, status, headers, config) {
+    $scope.data1 = data;
+  }) 
 
+   MEDService.medications("GET", "", {"action" : "getMedications"})
+  .success(function(data, status, headers, config) {
+    $scope.data2 = data;
+  })
+
+  $scope.newPrescription = {};
+
+  $scope.submitForm = function() {
+    MEDService.prescriptions("POST", $scope.newPrescription, {"action": "newPrescriptions"})
+    .success(function(data, status, headers, config) {
+      $scope.prescriptions = data;
+       $scope.newPrescription = {};
+      alert('Success!');
+    })
+    .error(function(data, status, headers, config) {
+      //MEDService.errorHandler(status);
+    });
+  }
+
+  $scope.filterCondition={
+        operator: '1'
+    }
+
+    $scope.operators = [
+        {value: '8.00',  displayName: '8.00' },
+        {value: '9.00',  displayName: '9.00' },
+        {value: '10.00', displayName: '10.00'},
+        {value: '11.00', displayName: '11.00'},
+        {value: '12.00', displayName: '12.00'},
+        {value: '13.00', displayName: '13.00'},
+        {value: '14.00', displayName: '14.00'},
+        {value: '15.00', displayName: '15.00'},
+        {value: '16.00', displayName: '16.00'},
+        {value: '17.00', displayName: '17.00'},
+        {value: '18.00', displayName: '18.00'},
+        {value: '19.00', displayName: '19.00'},
+        {value: '20.00', displayName: '20.00'},
+        {value: '21.00', displayName: '21.00'},
+        {value: '22.00', displayName: '22.00'}
+     ]
+
+}]);
+
+
+medControllers.controller('medication_list_Ctrl', ['$scope', 'MEDService', '$location', '$rootScope', function($scope, MEDService, $location, $rootScope) {
 
   MEDService.medications("GET", "", {"action" : "getMedications"})
   .success(function(data, status, headers, config) {
@@ -14,12 +64,12 @@ medControllers.controller('medication_list_Ctrl', ['$scope', 'MEDService', '$loc
   });
 
     $scope.DeleteMed = function(id) {
-       $scope.data = {
-      
-    }
+       $scope.data = {}
     var _id = id;
     MEDService.medications("DELETE", $scope.data, {"action": "deleteMedications"}, _id)
     .success(function(data, status, headers, config) {
+      alert('Success!');
+      $scope.medications = _.filter($scope.medications, function(med){ return med._id != id; });
     })
     .error(function(data, status, headers, config) {
       //MEDService.errorHandler(status);
@@ -29,14 +79,14 @@ medControllers.controller('medication_list_Ctrl', ['$scope', 'MEDService', '$loc
 
 medControllers.controller('add_medication_Ctrl', ['$scope', 'MEDService', '$location', '$rootScope', function($scope, MEDService, $location, $rootScope) {
 
-  $scope.newMedication = {
-    
-  };
+  $scope.newMedication = {};
 
   $scope.submitForm = function() {
     MEDService.medications("POST", $scope.newMedication, {"action": "newMedications"})
     .success(function(data, status, headers, config) {
       $scope.medications = data;
+      $scope.newMedication = {};
+      alert('Success!');
     })
     .error(function(data, status, headers, config) {
       //MEDService.errorHandler(status);
@@ -46,14 +96,13 @@ medControllers.controller('add_medication_Ctrl', ['$scope', 'MEDService', '$loca
 
 medControllers.controller('add_user_Ctrl', ['$scope', 'MEDService', '$location', '$rootScope', function($scope, MEDService, $location, $rootScope) {
 
-  $scope.newUser = {
-    
-  };
+  $scope.newUser = {};
 
   $scope.submitForm = function() {
     MEDService.users("POST", $scope.newUser, {"action": "newUsers"})
     .success(function(data, status, headers, config) {
       $scope.users = data;
+      alert('Success!');
     })
     .error(function(data, status, headers, config) {
       //MEDService.errorHandler(status);
@@ -71,67 +120,35 @@ MEDService.users("GET", "", {"action" : "getUsers"})
   });
 
   $scope.DeleteUser = function(id) {
-       $scope.data = {
-      
-    }
+       $scope.data = {}
     var _id = id;
     MEDService.users("DELETE", $scope.data, {"action": "deleteUsers"}, _id)
     .success(function(data, status, headers, config) {
+      alert('Success!');
+      $scope.users = _.filter($scope.users, function(us){ return us._id != id; });
     })
     .error(function(data, status, headers, config) {
       //MEDService.errorHandler(status);
     });
+  }; 
+
+   $scope.newUser = {
+    
+              };
+  //Update a person
+  $scope.updateUser = function (id) {
+        var _id = id;
+        console.log(_id);
+   
+   MEDService.users("PUT", $scope.newUser, {"action": "putUsers"}, _id)
+  .success(function(data, status, headers, config) {
+    $scope.users = data;
+    alert('Success!');
+})
+    .error(function(data, status, headers, config) {
+      //MEDService.errorHandler(status);
+    });
   };
-
-//Edit a person
-            $scope.editPerson = function (pId) {
-                for (i in $scope.users) {
-                    //Getting the person details from scope based on id
-                    if ($scope.users[i]._id == pId) {
-                        //Assigning the Create user scope variable for editing
-                        $scope.newperson = {
-                            _id: $scope.users[i]._id,
-                            firstname: $scope.users[i].firstname,
-                            lastname: $scope.users[i].lastname,
-                            username: $scope.users[i].username,
-                            password: $scope.users[i].password,
-                            role: $scope.users[i].role,
-                            description: $scope.users[i].description
-                        };
-                        //Hiding Save button
-                        $scope.DisplaySave = false;
-                        //Displaying Update button
-                        $scope.DisplayUpdate = true;
-                        //Clearing the Status
-                        $scope.status = '';
-                    }
-                }
-            };
-
-            //Update a person
-            $scope.updatePerson = function () {
-                //Defining $http service for updating a person
-                $http({
-                    method: 'PUT',
-                    url: '/api/persons',
-                    data: JSON.stringify($scope.newperson),
-                    headers: { 'Content-Type': 'application/JSON' }
-                }).
-                success(function (data) {
-                    //Showing Success message
-                    $scope.status = "The Person Updated Successfully!!!";
-                    //Loading people to the $scope
-                    GetPersons();
-                    //Displaying save button
-                    $scope.DisplaySave = true;
-                    //Hiding Update button
-                    $scope.DisplayUpdate = false;
-                })
-                .error(function (error) {
-                    //Showing error message
-                    $scope.status = 'Unable to update a person: ' + error.message;
-                });
-            };
 
       //MEDService.errorHandler(status);
 
@@ -150,71 +167,54 @@ MEDService.users("GET", "", {"action" : "getUsers"})
 */
   }]);
 
-medControllers.controller('LoginCtrl', function($scope, AuthService, $ionicPopup, $state) {
-  $scope.user = {
-    name: '',
-    password: ''
-  };
- 
-  $scope.login = function(user) {
-    AuthService.login(user).then(function(user) {
-      $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-      $scope.setCurrentUser(user);
-    }, function() {
-        $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-      });
-  }
-});
- /*
-medControllers.controller('RegisterCtrl', function($scope, AuthService, $ionicPopup, $state) {
-  $scope.user = {
-    name: '',
-    password: ''
-  };
- 
-  $scope.signup = function() {
-    AuthService.register($scope.user).then(function(msg) {
-      $state.go('outside.login');
-      var alertPopup = $ionicPopup.alert({
-        title: 'Register success!',
-        template: msg
-      });
-    }, function(errMsg) {
-      var alertPopup = $ionicPopup.alert({
-        title: 'Register failed!',
-        template: errMsg
-      });
-    });
-  };
-})
- 
-medControllers.controller('InsideCtrl', function($scope, AuthService, API_ENDPOINT, $http, $state) {
-  $scope.destroySession = function() {
-    AuthService.logout();
-  };
- 
-  $scope.getInfo = function() {
-    $http.get(API_ENDPOINT.url + '/memberinfo').then(function(result) {
-      $scope.memberinfo = result.data.msg;
-    });
-  };
- 
-  $scope.logout = function() {
-    AuthService.logout();
-    $state.go('outside.login');
-  };
-})
- 
-medControllers.controller('AppCtrl', function($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS) {
-  $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
-    AuthService.logout();
-    $state.go('outside.login');
-    var alertPopup = $ionicPopup.alert({
-      title: 'Session Lost!',
-      template: 'Sorry, You have to login again.'
-    });
-  });
-}); */
-
 medControllers.controller('add_tracking_Ctrl', ['$scope', 'MEDService', '$location', '$rootScope', function($scope, MEDService, $location, $rootScope) {
+    
     }]);
+
+medControllers.controller('loginCtrl', ['$scope', 'MEDService', '$rootScope','$location', function($scope, MEDService, $rootScope, $location) {
+
+  $scope.dateFixer = [];
+
+
+  $scope.errorMessage = "";
+
+  $scope.tmpImage = "";
+
+  $scope.user = {
+    "username" : "",
+    "password" : ""
+  };
+
+
+window.localStorage.removeItem("username");
+window.localStorage.removeItem("password");
+
+  $scope.login = function() {
+
+      $rootScope.user = {
+        "username" : _.isNull(window.localStorage.getItem("username")) ? "" : window.localStorage.getItem("username"),
+        "password" : _.isNull(window.localStorage.getItem("password")) ? "" : window.localStorage.getItem("password")
+      };
+
+    console.log($rootScope.user);
+
+    if (_.isNull(window.localStorage.getItem("username"))) {
+      $rootScope.isLoaded = false;
+      MEDService.testUser($scope.user)
+      .success(function(data, status, headers, config) {
+        console.log(data);
+       if (data == "OK") {
+        window.localStorage.setItem("username", $scope.user.username);
+        window.localStorage.setItem("password", $scope.user.password);
+        $rootScope.user = $scope.user;
+        $rootScope.isLoaded = true;
+        $location.path('/');  
+       } else {
+       alert('Incorrect! Please check your username and password.');
+       }
+      });
+    }
+  };
+
+ }]);
+

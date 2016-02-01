@@ -1,7 +1,9 @@
 <div layout-fill>
 <h3>Add a medication</h3>
+
 <div class="row">
-<form class="col s12" name="userForm" ng-submit="submitForm()">
+  <form class="col s12" name="medicationForm" ng-submit="submitForm()">
+
    <div class="row">
       <div class="input-field col s12">
         <input id="name" name = "name" ng-model = "newMedication.name" type="text" class="validate">
@@ -44,10 +46,11 @@
 </div>
     </div> -->
 
-       <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-        <i class="material-icons right">send</i>
-      </button>
-   </form>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+      <i class="material-icons right">send</i>
+    </button>
+
+  </form>
 </div>
 
 </div>

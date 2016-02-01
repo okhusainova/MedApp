@@ -1,70 +1,76 @@
-<link type="text/css" rel="stylesheet" href="MedApp/node_modules/materialize-css/dist/css/materialize.css"  media="screen,projection"/>
-<script type="text/javascript" src="MedApp/node_modules/materialize-css/js/date_picker/picker.js"></script>
-<script type="text/javascript" src="MedApp/node_modules/materialize-css/js/date_picker/picker.date.js"></script>
-<script type="text/javascript" src="MedApp/node_modules/materialize-css/dist/css/materialize.js"></script>
-
-
+<div layout-fill>
 <h3>Add a prescription</h3>
 
-<div class="row">
-<form class="col s12">
-   
-      <div class="row">
-      <div class="input-field col s12"> <!-- селект для юзера -->
-    <select>
-      <option value="" disabled selected>Choose your option</option>
-      <option value="1">Option 1</option>
-      <option value="2">Option 2</option>
-      <option value="3">Option 3</option>
-    </select>
-    <label>Materialize Select</label>
-  </div>
-</div>
-
-
   <div class="row">
-      <div class="input-field col s12"> <!-- селект для препарата -->
-    <select>
-      <option value="" disabled selected>Choose your option</option>
-      <option value="1">Option 1</option>
-      <option value="2">Option 2</option>
-      <option value="3">Option 3</option>
-    </select>
-    <label>Materialize Select</label>
+    <form class="col s12" name="prescriptionForm" ng-submit="submitForm()">
+
+        <div class="row">
+          <div class="input-field col s12">
+            <select ng-model="newPrescription.patient_username" style="display: block" 
+             ng-options="user.username for user in data1" >
+            </select></br>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <select ng-model = "newPrescription.medication_name" style="display: block" 
+             ng-options="medication.name for medication in data2" >
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="date" class="datepicker" ng-model = "newPrescription.start_date">
+            <label for="datepicker">Start date</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="date" class="datepicker" ng-model = "newPrescription.end_date">
+            <label for="datepicker">End date</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="route" name = "route" ng-model = "newPrescription.route" type="text" class="validate">
+            <label for="route">Method of taking the medicine</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="image" name = "image" ng-model = "newPrescription.image" type="text" class="validate">
+            <label for="image">Image</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="days_interval" name = "days_interval" ng-model = "newPrescription.days_interval" type="text" class="validate">
+            <label for="days_interval">Days interval</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <select ng-model="newPrescription.times" style="display: block" >
+              <option ng-repeat="operator in operators" value="{{operator.value}}">
+                 {{operator.displayName}}
+              </option>
+            </select></br>
+          </div>
+        </div>
+
+        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button>
+
+    </form>
   </div>
-</div>
-
-    <div class="row">
-      <div class="input-field col s12">
-        <input id="route" type="text" class="validate">
-        <label for="route">Route</label>
-      </div>
-    </div>
-    
-
-
-<div class="row">
-<div class="input-field col s12">
-<input type="date" class="datepicker">
-</div>
-</div>
-
-<div class="row">
-<div class="input-field col s12">
-<input type="date" class="datepicker">
-</div>
-</div>
-
-    <div class="row">
-      <div class="input-field col s12">
-        <textarea id="comments" class="materialize-textarea"></textarea>
-        <label for="comments">Comments</label>
-      </div>
-    </div>
-       <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-        <i class="material-icons right">send</i>
-      </button>
-   </form>
 </div>
 
 <style type="text/css">
@@ -73,3 +79,5 @@
 
  <script type="text/javascript">  $('.datepicker').pickadate({
   });</script>
+
+
